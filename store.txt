@@ -1,0 +1,66 @@
+def menu():
+    menuState1 = [
+        "[ New Game ]   <",
+        "[Load Save]     ",
+        "[Settings]      ",
+        "[Exit]          "
+    ]
+    menuState2 = [
+        "[New Game]      ",
+        "[ Load Save ]  <",
+        "[Settings]      ",
+        "[Exit]          "
+    ]
+    menuState3 = [
+        "[ New Game ]    ",
+        "[Load Save]     ",
+        "[ Settings ]   <",
+        "[Exit]          "
+    ]
+    menuState4 = [
+        "[ New Game ]    ",
+        "[Load Save]     ",
+        "[Settings]      ",
+        "[ Exit ]       <"
+    ]
+
+    menuState = 1
+    menuActive = False
+
+    while keyUp:
+        menuState += 1
+        keyUp = False
+        menuActive = False
+    
+    while keyDown:
+        menuState -= 1
+        keyDown = False
+        menuActive = False
+
+    while menuState > 4:
+        menuState = 1
+
+    while menuState < 1:
+        menuState = 4
+
+    while True:
+        if menuState == 1 and not menuActive:
+            menuActive = True
+            for i in menuState1:
+                print(i)
+                sleep(.01)
+        elif menuState == 2 and not menuActive:
+            menuActive = True
+            for i in menuState2:
+                print(i)
+                sleep(.01)
+        elif menuState == 3 and not menuActive:
+            menuActive = True
+            for i in menuState3:
+                print(i)
+                sleep(.01)
+        elif menuState == 4 and not menuActive:
+            menuActive = True
+            for i in menuState4:
+                print(i)
+                sleep(.01)
