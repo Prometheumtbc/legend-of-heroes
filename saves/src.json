@@ -1,0 +1,21 @@
+{
+    "location": {
+        "x": 0,
+        "y": 0
+    },
+
+    "playerStats": {
+        "hp": 0,
+        "mp": 0,
+        "lvl": 0,
+        "exp": 0,
+        "step": 0,
+        "over": 0,
+        "frag": 0
+    },
+
+    "internal": {
+        "seed": 0,
+        "noise": 0
+    }
+}
