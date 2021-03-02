@@ -1,5 +1,6 @@
 from time import *
 from random import *
+from pynput import keyboard
 import os, sys, random, json
 
 def cls():  
@@ -12,33 +13,33 @@ def prints(x):
  
 def title():  
 
-    sleep(1)
+        sleep(1)
 
-    print (u"\u001b[30;1m   __                           _          __                                  ")
-    print ("  / /  ___  __ _  ___ _ __   __| |   ___  / _|   /\  /\___ _ __ ___   ___  ___ ")
-    print (" / /  / _ \/ _` |/ _ \ '_ \ / _` |  / _ \| |_   / /_/ / _ \ '__/ _ \ / _ \/ __|")
-    print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
-    print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/")
+        print (u"\u001b[30;1m   __                           _          __                                  ")
+        print ("  / /  ___  __ _  ___ _ __   __| |   ___  / _|   /\  /\___ _ __ ___   ___  ___ ")
+        print (" / /  / _ \/ _` |/ _ \ '_ \ / _` |  / _ \| |_   / /_/ / _ \ '__/ _ \ / _ \/ __|")
+        print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
+        print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/")
 
-    sleep(.15)
-    cls()
+        sleep(.15)
+        cls()
 
-    print (u"\u001b[0m   __                           _          __                                  ")
-    print ("  / /  ___  __ _  ___ _ __   __| |   ___  / _|   /\  /\___ _ __ ___   ___  ___ ")
-    print (" / /  / _ \/ _` |/ _ \ '_ \ / _` |  / _ \| |_   / /_/ / _ \ '__/ _ \ / _ \/ __|")
-    print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
-    print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/")
+        print (u"\u001b[0m   __                           _          __                                  ")
+        print ("  / /  ___  __ _  ___ _ __   __| |   ___  / _|   /\  /\___ _ __ ___   ___  ___ ")
+        print (" / /  / _ \/ _` |/ _ \ '_ \ / _` |  / _ \| |_   / /_/ / _ \ '__/ _ \ / _ \/ __|")
+        print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
+        print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/")
 
-    sleep(.15)
-    cls()
+        sleep(.15)
+        cls()
 
-    print (u"\u001b[37;1m   __                           _          __                                  ")
-    print ("  / /  ___  __ _  ___ _ __   __| |   ___  / _|   /\  /\___ _ __ ___   ___  ___ ")
-    print (" / /  / _ \/ _` |/ _ \ '_ \ / _` |  / _ \| |_   / /_/ / _ \ '__/ _ \ / _ \/ __|")
-    print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
-    print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/ \u001b[0m")
+        print (u"\u001b[37;1m   __                           _          __                                  ")
+        print ("  / /  ___  __ _  ___ _ __   __| |   ___  / _|   /\  /\___ _ __ ___   ___  ___ ")
+        print (" / /  / _ \/ _` |/ _ \ '_ \ / _` |  / _ \| |_   / /_/ / _ \ '__/ _ \ / _ \/ __|")
+        print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
+        print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/ \u001b[0m")
 
-    sleep(1)
+        sleep(1)
  
 def castle():
  
@@ -66,7 +67,7 @@ def castle():
     for i in castle:
         print(i)
         sleep(.01)
-
+            
 
 def north():
     print ("To go north press n then enter")
@@ -92,9 +93,13 @@ def setup():
  
     prints("What is your name, warrior? ")
     name = input()
+    seed = random.randrange(sys.maxsize)
+    random.seed(seed)
     HP = randint(5,20)
     MP = randint(5,20)
-    seed = random.randrange(sys.maxsize)
+    frag = randint(25,75)
+    step = randint(25,75)
+    over = randint(25,75)
  
 def villager():
     global npcname
@@ -106,9 +111,9 @@ def villager():
     random.shuffle(npcnamechoice)
     npcname = npcnamechoice[0]
  
-    print ("\n["+npcname+":] Hello, my name is "+npcname+", Would you like to talk to me?\n")
+    prints("\n["+npcname+":] Hello, my name is "+npcname+", Would you like to talk to me?\n")
     random.shuffle(responses)
-    print ("Press y to talk to the villager")
+    prints("Press y to talk to the villager")
  
     if input() == "y":
         print ("["+npcname+":] " +responses[0])
@@ -140,10 +145,13 @@ global MP
 global move
 global enemyHP
  
-print ("Welcome to Middle Earth, " + name)
+prints("Welcome to Middle Earth, " + name)
 sleep(2)
-print ("\nYour health is" + " " + str(HP))
-print ("Your magic skill is" + " " + str(MP))
+prints("\nYour health is " + str(HP))
+prints("Your magic skill is " + str(MP))
+prints("Frag - " + str(frag))
+prints("Step - " + str(step))
+prints("Over - " + str(over))
  
  
 print ("Would you like to venture out into the land?")
