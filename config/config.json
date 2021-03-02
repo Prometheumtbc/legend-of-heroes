@@ -1,0 +1,20 @@
+{
+    "hp": {
+        "random": true,
+        "min": 5,
+        "max": 20
+    },
+
+    "mp": {
+        "random": true,
+        "min": 5,
+        "max": 20
+    },
+
+    "console": {
+        "color": {
+            "primary": null,
+            "secondary": null
+        }
+    }
+}
