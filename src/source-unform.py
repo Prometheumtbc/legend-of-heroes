@@ -1,13 +1,18 @@
 from time import *
 from random import *
 import os, sys, random, json
- 
-def clear_screen():  
+
+def cls():  
     os.system('cls' if os.name=='nt' else 'clear')
+
+def prints(x):
+    for i in x:
+        print(i, end="", flush=True)
+        sleep(.001)
  
 def title():  
 
-    sleep(2)
+    sleep(1)
 
     print (u"\u001b[30;1m   __                           _          __                                  ")
     print ("  / /  ___  __ _  ___ _ __   __| |   ___  / _|   /\  /\___ _ __ ___   ___  ___ ")
@@ -15,7 +20,7 @@ def title():
     print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
     print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/")
 
-    sleep(0.2)
+    sleep(0.1)
     os.system('cls' if os.name=='nt' else 'clear')
 
     print (u"\u001b[0m   __                           _          __                                  ")
@@ -24,7 +29,7 @@ def title():
     print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
     print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/")
 
-    sleep(0.2)
+    sleep(0.1)
     os.system('cls' if os.name=='nt' else 'clear')
 
     print (u"\u001b[37;1m   __                           _          __                                  ")
@@ -33,29 +38,30 @@ def title():
     print ("/ /__|  __/ (_| |  __/ | | | (_| | | (_) |  _| / __  /  __/ | | (_) |  __/\__ \ ")
     print ("\____/\___|\__, |\___|_| |_|\__,_|  \___/|_|   \/ /_/ \___|_|  \___/ \___||___/ \u001b[0m")
 
-    sleep(2)
+    sleep(1)
  
 def castle():
  
-    print ("*                                 |>>>                    +        ",)
-    print ("+          *                      |                   *       +",)
-    print ("                    |>>>      _  _|_  _   *     |>>>           ")
-    print ("           *        |        |;| |;| |;|        |                 *")
-    print ("     +          _  _|_  _    \\.    .  /    _  _|_  _       +")
-    print (" *             |;|_|;|_|;|    \\: +   /    |;|_|;|_|;|")
-    print ("               \\..      /    ||:+++. |    \\.    .  /           *")
-    print ("      +         \\.  ,  /     ||:+++  |     \\:  .  /")
-    print ("                 ||:+  |_   _ ||_ . _ | _   _||:+  |       *")
-    print ("          *      ||+++.|||_|;|_|;|_|;|_|;|_|;||+++ |          +")
-    print ("                 ||+++ ||.    .     .      . ||+++.|   *")
-    print ("+   *            ||: . ||:.     . .   .  ,   ||:   |               *")
-    print ("         *       ||:   ||:  ,     +       .  ||: , |      +")
-    print ("  *              ||:   ||:.     +++++      . ||:   |         *")
-    print ("     +           ||:   ||.     +++++++  .    ||: . |    +")
-    print ("           +     ||: . ||: ,   +++++++ .  .  ||:   |             +")
-    print ("                 ||: . ||: ,   +++++++ .  .  ||:   |        *")
-    print ("                 ||: . ||: ,   +++++++ .  .  ||:   |")
- 
+    print("*                                 |>>>                    +        ")
+    print("+          *                      |                   *       +")
+    print("                    |>>>      _  _|_  _   *     |>>>           ")
+    print("           *        |        |;| |;| |;|        |                 *")
+    print("     +          _  _|_  _    \\\.    .  /    _  _|_  _       +")
+    print(" *             |;|_|;|_|;|    \\\: +   /    |;|_|;|_|;|")
+    print("               \\\..      /    ||:+++. |    \\\.    .  /           *")
+    print("      +         \\\.  ,  /     ||:+++  |     \\\:  .  /")
+    print("                 ||:+  |_   _ ||_ . _ | _   _||:+  |       *")
+    print("          *      ||+++.|||_|;|_|;|_|;|_|;|_|;||+++ |          +")
+    print("                 ||+++ ||.    .     .      . ||+++.|   *")
+    print("+   *            ||: . ||:.     . .   .  ,   ||:   |               *")
+    print("         *       ||:   ||:  ,     +       .  ||: , |      +")
+    print("  *              ||:   ||:.     +++++      . ||:   |         *")
+    print("     +           ||:   ||.     +++++++  .    ||: . |    +")
+    print("           +     ||: . ||: ,   +++++++ .  .  ||:   |             +")
+    print("                 ||: . ||: ,   +++++++ .  .  ||:   |        *")
+    print("                 ||: . ||: ,   +++++++ .  .  ||:   |")
+
+
 def north():
     print ("To go north press n then enter")
  
@@ -73,10 +79,16 @@ def setup():
     global name
     global HP
     global MP
+    global frag
+    global step
+    global over
+    global seed
  
-    name = input("What is your name, warrior? ")
+    prints("What is your name, warrior? ")
+    name = input()
     HP = randint(5,20)
     MP = randint(5,20)
+    seed = random.randrange(sys.maxsize)
  
 def villager():
     global npcname
@@ -111,7 +123,7 @@ def enemy():
     print ("Your enemy has " + " " + str(enemyMP) + " " + "Magic Points")
  
  
-clear_screen()
+cls()
 title()
 castle()
 setup()
@@ -128,7 +140,7 @@ print ("\nYour health is" + " " + str(HP))
 print ("Your magic skill is" + " " + str(MP))
  
  
-print ("Would you like to venture out into the land? Press y then enter to continue")
+print ("Would you like to venture out into the land?")
  
 if input() == "y":
     print ("You are in your home, with a roaring fireplace in front of you, above the fire you can see your sword and shield")
