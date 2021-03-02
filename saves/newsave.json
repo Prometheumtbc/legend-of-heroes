@@ -15,7 +15,6 @@
     },
 
     "internal": {
-        "seed": 0,
-        "noise": 0
+        "seed": 0
     }
 }
