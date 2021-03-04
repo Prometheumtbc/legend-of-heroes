@@ -15,6 +15,7 @@
     },
 
     "internal": {
-        "seed": 0
+        "seed": 0,
+        "ver": ""
     }
 }

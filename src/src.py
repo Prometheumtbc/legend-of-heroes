@@ -67,7 +67,12 @@ def castle():
     for i in castle:
         print(i)
         sleep(.01)
-            
+
+def saveNew():
+    None
+
+def load():
+    None    
 
 def north():
     print ("To go north press n then enter")
@@ -90,6 +95,9 @@ def setup():
     global step
     global over
     global seed
+    global lvl
+    global exp
+    global progHex
  
     prints("What is your name, warrior? ")
     name = input()
@@ -100,6 +108,7 @@ def setup():
     frag = randint(25,75)
     step = randint(25,75)
     over = randint(25,75)
+    progHex = "000000000000"
  
 def villager():
     global npcname
@@ -132,6 +141,37 @@ def enemy():
     print ("\nSuddenly you hear a roar, and from the shadows you see an "+enemyname+" coming straight at you....")
     print ("Your enemy has " + " " + str(enemyHP) + " " + "Health Points")
     print ("Your enemy has " + " " + str(enemyMP) + " " + "Magic Points")
+
+def save():
+    global _dict
+
+    _dict = {
+                {
+            "location": {
+                "x": x,
+                "y": y
+            },
+
+            "playerStats": {
+                "hp": HP,
+                "mp": MP,
+                "lvl": lvl,
+                "exp": exp,
+                "step": step,
+                "over": over,
+                "frag": frag
+            },
+
+            "internal": {
+                "seed": seed,
+                "ver": ""
+            },
+
+            "progression": {
+                "code": progHex
+            }
+        }
+    }
  
  
 cls()
@@ -144,14 +184,17 @@ global HP
 global MP
 global move
 global enemyHP
+global x
+global y
+
  
 prints("Welcome to Middle Earth, " + name)
 sleep(2)
 prints("\nYour health is " + str(HP))
-prints("Your magic skill is " + str(MP))
-prints("Frag - " + str(frag))
-prints("Step - " + str(step))
-prints("Over - " + str(over))
+prints("\nYour magic skill is " + str(MP))
+prints("\nFrag - " + str(frag))
+prints("\nStep - " + str(step))
+prints("\nOver - " + str(over))
  
  
 print ("Would you like to venture out into the land?")
@@ -161,9 +204,8 @@ if input() == "y":
     print ("Would you like to take your sword and shield? Press y then enter to continue")
  
     if input() == "y":
-        weapons = []
-        weapons.append("sword")
-        weapons.append("shield")
+        weapons = ["sword", "shield", "lance", "mace"]
+        random.shuffle(weapons)
         print ("You are now carrying your" + " " + weapons[0] + " " + "and your" + " " + weapons[1])
         print ("Armed with your " + weapons[0] + " " + "and " + weapons[1] + " you swing open the door to your home and see a green valley gleaming in the sunshine.")
  
@@ -218,8 +260,7 @@ if fight == "y":
 else:
     print ("You turn and run away from the ogre")
  
-print ("This is where this template ends, this is now YOUR world, build your adventure and share it with the world")
- 
+
 print ("   _       _                 _")
 print ("  /_\   __| |_   _____ _ __ | |_ _   _ _ __ ___")
 print (" //_\\ / _` \ \ / / _ \ '_ \| __| | | | '__/ _ \ ")
