@@ -90,17 +90,36 @@ def setup():
     global step
     global over
     global seed
- 
-    prints("What is your name, warrior? ")
-    name = input()
-    seed = random.randrange(sys.maxsize)
+    
+    prints("Please enter a seed. Leave blank for a random seed.")
+    x = str(input())
+
+    if x == "":
+        seed = random.randrange(sys.maxsize)
+    else:
+        seed = x
+
     random.seed(seed)
+
+    cls()
+    prints("What is your name, warrior? ")
+    name = str(input())
     HP = randint(5,20)
     MP = randint(5,20)
     frag = randint(25,75)
     step = randint(25,75)
     over = randint(25,75)
- 
+
+def overlay():
+    print(name)
+    print("[ HP: " + str(HP))
+    print("[ MP: " + str(MP))
+    print("")
+    print("[ FRAG: " + str(frag))
+    print("[ STEP: " + str(step))
+    print("[ OVER: " + str(over))
+    print("\n\n")
+
 def villager():
     global npcname
     global response
@@ -144,27 +163,33 @@ global HP
 global MP
 global move
 global enemyHP
- 
+
+cls()
 prints("Welcome to Middle Earth, " + name)
 sleep(2)
-prints("\nYour health is " + str(HP))
-prints("Your magic skill is " + str(MP))
-prints("Frag - " + str(frag))
-prints("Step - " + str(step))
-prints("Over - " + str(over))
- 
- 
+prints("\nYour health is " + str(HP) + "\n")
+sleep(.5)
+prints("Your magic skill is " + str(MP) + "\n")
+sleep(.5)
+prints("Frag - " + str(frag) + "\n")
+prints("Step - " + str(step) + "\n")
+prints("Over - " + str(over) + "\n")
+sleep(.5)
+
+print("")
 print ("Would you like to venture out into the land?")
- 
+
 if input() == "y":
-    print ("You are in your home, with a roaring fireplace in front of you, above the fire you can see your sword and shield")
+    cls()
+    overlay()
+    print ("\nYou are in your home, with a roaring fireplace in front of you, above the fire you can see your sword and shield")
     print ("Would you like to take your sword and shield? Press y then enter to continue")
  
     if input() == "y":
         weapons = []
         weapons.append("sword")
         weapons.append("shield")
-        print ("You are now carrying your" + " " + weapons[0] + " " + "and your" + " " + weapons[1])
+        print ("\nYou are now carrying your" + " " + weapons[0] + " " + "and your" + " " + weapons[1])
         print ("Armed with your " + weapons[0] + " " + "and " + weapons[1] + " you swing open the door to your home and see a green valley gleaming in the sunshine.")
  
     else:
@@ -218,7 +243,7 @@ if fight == "y":
 else:
     print ("You turn and run away from the ogre")
  
-print ("This is where this template ends, this is now YOUR world, build your adventure and share it with the world")
+prints("This is where this demo ends. Thank you for playing Terminal.")
  
 print ("   _       _                 _")
 print ("  /_\   __| |_   _____ _ __ | |_ _   _ _ __ ___")
