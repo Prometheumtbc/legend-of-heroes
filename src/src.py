@@ -1,7 +1,23 @@
 from time import *
 from random import *
 from pynput import keyboard
+from playsound import playsound
 import os, sys, random, json
+
+
+# define globals
+
+global name
+global HP
+global MP
+global frag
+global step
+global over
+global seed
+global opened
+global played
+global saved
+
 
 def cls():  
     os.system('cls' if os.name=='nt' else 'clear')
@@ -10,6 +26,25 @@ def prints(x):
     for i in x:
         print(i, end="", flush=True)
         sleep(.001)
+
+def loadGlobalJSON():
+    with open("config\global.json") as f:
+        raw = json.read(json.load(f))
+        opened = raw.get("hasOpened")
+        played = raw.get("hasPlayed")
+        saved = raw.get("hasSaved")
+
+def boot():
+    
+    prints("Please enter a seed. Leave blank for a random seed.")
+    x = str(input())
+
+    if x == "":
+        seed = random.randrange(sys.maxsize)
+    else:
+        seed = x
+
+    random.seed(seed)
  
 def title():  
 
@@ -80,35 +115,6 @@ def south():
  
 def west():
     print ("To go west press w then enter")
- 
- 
-def setup():
-    global name
-    global HP
-    global MP
-    global frag
-    global step
-    global over
-    global seed
-    
-    prints("Please enter a seed. Leave blank for a random seed.")
-    x = str(input())
-
-    if x == "":
-        seed = random.randrange(sys.maxsize)
-    else:
-        seed = x
-
-    random.seed(seed)
-
-    cls()
-    prints("What is your name, warrior? ")
-    name = str(input())
-    HP = randint(5,20)
-    MP = randint(5,20)
-    frag = randint(25,75)
-    step = randint(25,75)
-    over = randint(25,75)
 
 def overlay():
     print(name)
@@ -152,113 +158,3 @@ def enemy():
     print ("Your enemy has " + " " + str(enemyHP) + " " + "Health Points")
     print ("Your enemy has " + " " + str(enemyMP) + " " + "Magic Points")
  
- 
-cls()
-title()
-castle()
-setup()
- 
-global name
-global HP
-global MP
-global move
-global enemyHP
-
-cls()
-prints("Welcome to Middle Earth, " + name)
-sleep(2)
-prints("\nYour health is " + str(HP) + "\n")
-sleep(.5)
-prints("Your magic skill is " + str(MP) + "\n")
-sleep(.5)
-prints("Frag - " + str(frag) + "\n")
-prints("Step - " + str(step) + "\n")
-prints("Over - " + str(over) + "\n")
-sleep(.5)
-
-print("")
-print ("Would you like to venture out into the land?")
-
-if input() == "y":
-    cls()
-    overlay()
-    print ("\nYou are in your home, with a roaring fireplace in front of you, above the fire you can see your sword and shield")
-    print ("Would you like to take your sword and shield? Press y then enter to continue")
- 
-    if input() == "y":
-        weapons = []
-        weapons.append("sword")
-        weapons.append("shield")
-        print ("\nYou are now carrying your" + " " + weapons[0] + " " + "and your" + " " + weapons[1])
-        print ("Armed with your " + weapons[0] + " " + "and " + weapons[1] + " you swing open the door to your home and see a green valley gleaming in the sunshine.")
- 
-    else:
-        print ("You choose not to take your weapons")
-        print ("Armed with your sense of humour, You swing open the door to see a green valley full of opportunity awaiting you.")
- 
-else:
-    print ("You stay at home, sat in your favourite chair watching the fire grow colder. Middle Earth no longer has a hero.")
-    print ("Game Over")
-    sys.exit(0)
-    
-print ("In the distance to the north you can see a small village, to the east you can see a river and to the west a field of wild flowers.")
- 
-print ("\n")
-north()
-east()
-west()
- 
-move = input("Where would you like to go? ")
- 
-if move == 'n':
-    print ("\nYou move to the north, walking in the sunshine.")
-    print ("A villager is in your path and greets you")
- 
-elif move == 'e':
-    print ("\nYou walk to the river which lies to the east of your home.")
-    print ("A villager is in your path and greets you")
- 
-elif move == 'w':
-    print ("\nYou walk to the field of wild flowers, stopping to take in the beauty")
-    print ("A villager is in your path and greets you\n")
- 
-villager()
-enemy()
-sleep(3)
- 
-fight = input("Do you wish to fight?" )
- 
-if fight == "y":
- 
-    while HP > 0:
-        hit = randint(0,5)
-        print ("You swing your sword and cause " + str(hit) + " of damage")
-        enemyHP = enemyHP - hit
-        print (enemyHP)
-        enemyhit = randint(0,5)
-        print ("The ogre swings a club at you and causes " + str(enemyhit) + " of damage")
-        HP = HP - enemyhit
-        print (HP)
- 
-else:
-    print ("You turn and run away from the ogre")
- 
-prints("This is where this demo ends. Thank you for playing Terminal.")
- 
-print ("   _       _                 _")
-print ("  /_\   __| |_   _____ _ __ | |_ _   _ _ __ ___")
-print (" //_\\ / _` \ \ / / _ \ '_ \| __| | | | '__/ _ \ ")
-print ("/  _  \ (_| |\ V /  __/ | | | |_| |_| | | |  __/")
-print ("\_/ \_/\__,_| \_/ \___|_| |_|\__|\__,_|_|  \___|")
- 
-print ("                     _ _")
-print ("  __ ___      ____ _(_) |_ ___")
-print (" / _` \ \ /\ / / _` | | __/ __|")
-print ("| (_| |\ V  V / (_| | | |_\__ \ ")
-print (" \__,_| \_/\_/ \__,_|_|\__|___/")
- 
-print (" _   _  ___  _   _")
-print ("| | | |/ _ \| | | |")
-print ("| |_| | (_) | |_| |")
-print (" \__, |\___/ \__,_|")
-print (" |___/")
