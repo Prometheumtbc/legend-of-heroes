@@ -2,22 +2,40 @@ from time import *
 from random import *
 from pynput import keyboard
 from playsound import playsound
-import os, sys, random, json
+from ctypes import wintypes
+import os, sys, random, json, ctypes, msvcrt, subprocess
 
+kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+user32 = ctypes.WinDLL('user32', use_last_error=True)
 
-# define globals
+SW_MAXIMIZE = 3
 
-global name
-global HP
-global MP
-global frag
-global step
-global over
-global seed
-global opened
-global played
-global saved
+kernel32.GetConsoleWindow.restype = wintypes.HWND
+kernel32.GetLargestConsoleWindowSize.restype = wintypes._COORD
+kernel32.GetLargestConsoleWindowSize.argtypes = (wintypes.HANDLE,)
+user32.ShowWindow.argtypes = (wintypes.HWND, ctypes.c_int)
 
+def maximize_console(lines=None):
+    fd = os.open('CONOUT$', os.O_RDWR)
+    try:
+        hCon = msvcrt.get_osfhandle(fd)
+        max_size = kernel32.GetLargestConsoleWindowSize(hCon)
+        if max_size.X == 0 and max_size.Y == 0:
+            raise ctypes.WinError(ctypes.get_last_error())
+    finally:
+        os.close(fd)
+    cols = max_size.X
+    hWnd = kernel32.GetConsoleWindow()
+    if cols and hWnd:
+        if lines is None:
+            lines = max_size.Y
+        else:
+            lines = max(min(lines, 9999), max_size.Y)
+        subprocess.check_call('mode.com con cols={} lines={}'.format(
+                                cols, lines))
+        user32.ShowWindow(hWnd, SW_MAXIMIZE)
+
+maximize_console()
 
 def cls():  
     os.system('cls' if os.name=='nt' else 'clear')
@@ -28,15 +46,29 @@ def prints(x):
         sleep(.001)
 
 def loadGlobalJSON():
-    with open("config\global.json") as f:
-        raw = json.read(json.load(f))
+
+    global opened
+    global played
+    global saved
+
+    with open("config/global.json") as f:
+        raw = json.load(f)
         opened = raw.get("hasOpened")
         played = raw.get("hasPlayed")
         saved = raw.get("hasSaved")
 
-def boot():
-    
-    prints("Please enter a seed. Leave blank for a random seed.")
+def loadConfig():
+    with open("config/config.json") as f:
+        raw = json.load(f)
+
+def fts():
+
+
+
+def newSave():
+    global seed
+
+    prints("Enter a seed. Alternatively, leave blank for a random seed.")
     x = str(input())
 
     if x == "":
@@ -45,6 +77,23 @@ def boot():
         seed = x
 
     random.seed(seed)
+
+    global name
+    name = ""
+    global HP
+    HP = 0
+    global MP
+    MP = 0
+    global frag
+    frag = 0
+    global step
+    step = 0
+    global over
+    over = 0
+    global opened
+    global played
+    global saved
+
  
 def title():  
 
@@ -102,6 +151,25 @@ def castle():
     for i in castle:
         print(i)
         sleep(.01)
+
+def logo():
+    print("                     `.-//+/:.`       `--------.`       .------------        `-://:-.       .-------------`    .--------.              .`           .`                         ")
+    print("                   .ohdmmmmmmdy:      odddddddddhs-     ydddddddddddh     `:shdmmmmdhs.    `dddddddddddddd`    hho-----:/s/           /h/           y-                         ")
+    print("                  :dmmmyo+oymmmd.    `dmmmmmmmmmmmd`   -mmmmdddddddd/    -ydmmdyyhmmmmy    :dddddddddddddo    :y-h-      `h:        `o+:h`         -y                          ")
+    print("                  hmmmd-`  .yyyy.    /mmmmmmmmmmmmm.   smmmd------..`   .dmmmo.` `hdddh    `.....+s......`    y: -h-      y:       -s:  y/         s/                          ")
+    print("                  ymmmmdhyso+:``     hmmmmmmmmmmmms   `dmmmdhhhhhh.     smmmd`    .....          y-          .h   -y-   `/s`      /s.   :h`       .h`                          ")
+    print("                  `:syhddmmmmds     -mmmmmmmmmmmh+`   +mmmmddddddh     .dmmm+                   -h           oo````:h:-/o:`     `o+`     y/       +o                           ")
+    print("                /sss+ `.-:hmmmd`    smmmdhhhyyo:.     hmmmy------.     +mmmm-   `syyy+          o/          `d+/////+ho.`      -s:       :h`     `h.                           ")
+    print("                smmmd+:-:odmmd+    .dmmmo````        :mmmmhsssssss.    /mmmmho+ohmmmh.         `h`          /s       -y-      /s.         y/     :dyyyyyyyyyyys                ")
+    print("                -hmmmmmmmmmdy:     ommmd.            ymmmmmmmmmmmd      odmmmmmmmdh+`          +o           h/........:h-   `ss.........../h     ymmmmmmmmmmmm/                ")
+    print("                 `:+ssyss+:.       /+++/             ++++++++++++:       ./ossso/-`            :.          `+////////////   :+/////////////+`   `+++++++++++++`                ")
+    print("                                                                                                                                                                               ")
+    print("                                            .::-:/.   .:-://.   :::::::.``:::+:::.`/  :`   /  .::::/.   +:::::-   :    `:.` `:--::.                                            ")
+    print("                                            o.:.`./-`./`-.../:` / :``````  ``o.:```::-.+: -/.//.-...//. o.:``.+/.`o-.`::.-- +.-.`./:.                                          ")
+    print("                                            .:+:-.` -:`:`   -// +-+---`      o.-    +:-s/-+`//.:`   .// o.:```/./`o:++:--`  .:+:-.` -                                          ")
+    print("                                           `- `.-:o-`:-:    ::/`/ /----.     o.-    :/s.s+:.-::/    -::`s:+:/+---`s+:-/o.   - `.-:o-`                                          ")
+    print("                                            //.``-/`: /+.``-/`/ / :          o.-     +o-oo:/  :+.``-:`/ o.:..-o- `+-:` .+-  :/-``./`/                                          ")
+    print("                                             `:/:-.-`  `:/:---` ` -          ``-     ``/``:.   `:/:---` `.-   `.- `-.   `.-  `:/:-.-.                                          ")
             
 
 def north():
@@ -158,3 +226,6 @@ def enemy():
     print ("Your enemy has " + " " + str(enemyHP) + " " + "Health Points")
     print ("Your enemy has " + " " + str(enemyMP) + " " + "Magic Points")
  
+if not opened:
+    fts()
+else:
